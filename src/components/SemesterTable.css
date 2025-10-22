@@ -1,0 +1,113 @@
+.semester-section {
+  margin: 30px 0;
+}
+
+.semester-section h2 {
+  color: #ffffff;
+  margin-bottom: 15px;
+}
+
+.semester-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+  background-color: #1e1e1e;
+}
+
+.semester-table th,
+.semester-table td {
+  border: 1px solid #444;
+  padding: 10px;
+  text-align: center;
+  color: #e0e0e0;
+}
+
+.semester-table th {
+  background-color: #333;
+  font-weight: bold;
+}
+
+.subject-name {
+  text-align: left;
+}
+
+.credit-select,
+.grade-select {
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  background-color: #2b2b2b;
+  color: white;
+  width: 100%;
+  cursor: pointer;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.clear-button {
+  background-color: #dc3545;
+  border: none;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.clear-button:hover {
+  background-color: #c82333;
+}
+
+.sgpa-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.attendance-button {
+  padding: 10px 20px;
+  background-color: #9933FF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.attendance-button:hover {
+  background-color: #5a32a3;
+}
+
+.grade-calc-button {
+  padding: 10px 20px;
+  background-color: #17a2b8;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.grade-calc-button:hover {
+  background-color: #117a8b;
+}
+
+@media screen and (max-width: 600px) {
+  .action-buttons {
+    flex-direction: column;
+  }
+
+  .action-buttons button {
+    width: 100%;
+  }
+}

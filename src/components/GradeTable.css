@@ -1,0 +1,32 @@
+.grade-table-container {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+}
+
+.grade-table {
+  width: 50%;
+  max-width: 400px;
+  min-width: 250px;
+  border-collapse: collapse;
+  background-color: #1e1e1e;
+}
+
+.grade-table th,
+.grade-table td {
+  border: 1px solid #444;
+  padding: 8px;
+  text-align: center;
+  color: #e0e0e0;
+}
+
+.grade-table th {
+  background-color: #333;
+  font-weight: bold;
+}
+
+@media screen and (max-width: 600px) {
+  .grade-table {
+    width: 100%;
+  }
+}

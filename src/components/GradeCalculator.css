@@ -1,0 +1,285 @@
+.grade-calculator-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 20px auto;
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.grade-calculator-header {
+  text-align: center;
+  color: #ffffff;
+  margin-bottom: 20px;
+}
+
+.info-box {
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  border-radius: 5px;
+  padding: 15px;
+  margin: 20px 0;
+  width: 100%;
+  max-width: 800px;
+  color: #e0e0e0;
+}
+
+.info-box p {
+  margin: 0 0 10px 0;
+}
+
+.info-box ul {
+  margin: 5px 0;
+  padding-left: 20px;
+}
+
+.info-box li {
+  margin: 5px 0;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+  margin-top: 20px;
+  -webkit-overflow-scrolling: touch;
+}
+
+.grade-calculator-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #1e1e1e;
+}
+
+.grade-calculator-table th,
+.grade-calculator-table td {
+  border: 1px solid #444;
+  padding: 12px;
+  text-align: center;
+  color: #e0e0e0;
+}
+
+.grade-calculator-table th {
+  background-color: #333;
+  font-weight: bold;
+}
+
+.subject-cell {
+  text-align: left;
+  font-weight: bold;
+}
+
+.input-field {
+  width: 100%;
+  max-width: 80px;
+  padding: 8px;
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  border: 1px solid #444;
+  border-radius: 4px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.grade-select-dropdown {
+  width: 100%;
+  max-width: 100px;
+  padding: 8px;
+  background-color: #2b2b2b;
+  color: white;
+  border: 1px solid #444;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.grade-select-dropdown:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.result-cell {
+  font-weight: bold;
+}
+
+.result-achieved {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.result-impossible {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+.result-warning {
+  color: #ffc107;
+  font-weight: bold;
+}
+
+.result-normal {
+  color: #17a2b8;
+  font-weight: bold;
+}
+
+.grading-info {
+  width: 100%;
+  max-width: 800px;
+  margin: 30px 0;
+  padding: 20px;
+  background-color: #2a2a2a;
+  border-radius: 5px;
+  border: 1px solid #444;
+}
+
+.grading-info h3 {
+  color: #ffffff;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.grading-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #1e1e1e;
+}
+
+.grading-table th,
+.grading-table td {
+  border: 1px solid #444;
+  padding: 10px;
+  text-align: center;
+  color: #e0e0e0;
+}
+
+.grading-table th {
+  background-color: #333;
+  font-weight: bold;
+}
+
+.back-to-cgpa {
+  display: block;
+  margin: 20px auto;
+  padding: 12px 24px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: none;
+  text-align: center;
+  min-width: 200px;
+}
+
+.back-to-cgpa:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .grade-calculator-container {
+    padding: 10px;
+    margin: 10px;
+  }
+
+  .grade-calculator-header {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+  }
+
+  .grade-calculator-table th,
+  .grade-calculator-table td {
+    padding: 8px;
+    font-size: 0.9em;
+  }
+
+  .info-box {
+    padding: 10px;
+    font-size: 0.9em;
+  }
+
+  .back-to-cgpa {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .grade-calculator-container {
+    padding: 8px;
+  }
+
+  .grade-calculator-header {
+    font-size: 1.1em;
+  }
+
+  .grade-calculator-table {
+    border: none;
+  }
+
+  .grade-calculator-table thead {
+    display: none;
+  }
+
+  .grade-calculator-table tbody,
+  .grade-calculator-table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .grade-calculator-table tr {
+    margin-bottom: 15px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background: #2a2a2a;
+  }
+
+  .grade-calculator-table td {
+    display: flex;
+    align-items: center;
+    text-align: right;
+    padding: 10px;
+    border: none;
+    border-bottom: 1px solid #444;
+    position: relative;
+  }
+
+  .grade-calculator-table td::before {
+    content: attr(data-label);
+    flex: 1 1 40%;
+    text-align: left;
+    font-weight: bold;
+    color: #ffffff;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  .grade-calculator-table td > * {
+    flex: 1 1 60%;
+  }
+
+  .grade-calculator-table td:last-child {
+    border-bottom: none;
+  }
+
+  .subject-cell {
+    text-align: right;
+  }
+
+  .grading-table thead {
+    display: table-header-group;
+  }
+
+  .grading-table th,
+  .grading-table td {
+    font-size: 0.85em;
+    padding: 6px;
+  }
+}
