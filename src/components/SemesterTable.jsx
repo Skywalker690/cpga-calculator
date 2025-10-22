@@ -11,6 +11,12 @@ const SemesterTable = ({ semesterNumber, semesterName, subjects, onUpdate, onAtt
     }))
   );
 
+  // Notify parent component of initial data on mount
+  React.useEffect(() => {
+    onUpdate(semesterNumber, subjectData);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const handleCreditChange = (index, value) => {
     const newData = [...subjectData];
     newData[index].credit = parseInt(value);
