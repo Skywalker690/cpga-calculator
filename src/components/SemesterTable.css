@@ -52,54 +52,85 @@
 .clear-button {
   background-color: #dc3545;
   border: none;
-  padding: 10px 20px;
+  padding: 12px 24px;
   color: white;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
 }
 
 .clear-button:hover {
   background-color: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+.clear-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(220, 53, 69, 0.3);
 }
 
 .sgpa-button {
   background-color: #28a745;
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  padding: 12px 24px;
+  border-radius: 8px;
   font-size: 16px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+  cursor: default;
 }
 
 .attendance-button {
-  padding: 10px 20px;
-  background-color: #9933FF;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #9933FF 0%, #7b2bc9 100%);
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s ease;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(153, 51, 255, 0.3);
 }
 
 .attendance-button:hover {
-  background-color: #5a32a3;
+  background: linear-gradient(135deg, #7b2bc9 0%, #5a32a3 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(153, 51, 255, 0.4);
+}
+
+.attendance-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(153, 51, 255, 0.3);
 }
 
 .grade-calc-button {
-  padding: 10px 20px;
-  background-color: #17a2b8;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.3s ease;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(23, 162, 184, 0.3);
 }
 
 .grade-calc-button:hover {
-  background-color: #117a8b;
+  background: linear-gradient(135deg, #138496 0%, #117a8b 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(23, 162, 184, 0.4);
+}
+
+.grade-calc-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(23, 162, 184, 0.3);
 }
 
 @media screen and (max-width: 600px) {

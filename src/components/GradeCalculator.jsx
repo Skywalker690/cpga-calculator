@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';  // Added useEffect
 import { getSubjects } from '../data/semesterData';
+import { parseCSV } from '../utils/csvParser';
 import './GradeCalculator.css';
 
 const GradeCalculator = ({ semesterNumber, onBack }) => {
-  const subjects = getSubjects(semesterNumber);
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const allSubjects = getSubjects(semesterNumber);
+  // Filter out subjects with 0 credits
+  const subjects = allSubjects.filter(subject => subject.credit > 0);
   const [calculatorData, setCalculatorData] = useState(
     subjects.map(subject => ({
       name: subject.name,
@@ -11,6 +19,14 @@ const GradeCalculator = ({ semesterNumber, onBack }) => {
       targetGrade: 'S'
     }))
   );
+  const [importing, setImporting] = useState(false);
+  const [importMessage, setImportMessage] = useState('');
+
+  // Auto-import internal marks on component mount
+  useEffect(() => {
+    handleImportInternalMarks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const gradeThresholds = {
     'S': { percentage: 90, gradePoint: 10.0 },
@@ -45,6 +61,20 @@ const GradeCalculator = ({ semesterNumber, onBack }) => {
     return Math.min(Math.max(marksNeeded, 0), 50);
   };
 
+  const calculateSGPA = () => {
+    let totalCredits = 0;
+    let totalGradePoints = 0;
+
+    subjects.forEach((subject, index) => {
+      const targetGrade = calculatorData[index].targetGrade;
+      const gradePoint = gradeThresholds[targetGrade].gradePoint;
+      totalCredits += subject.credit;
+      totalGradePoints += subject.credit * gradePoint;
+    });
+
+    return totalCredits > 0 ? (totalGradePoints / totalCredits).toFixed(2) : '0.00';
+  };
+
   const isImpossible = (cieMarks, targetGrade) => {
     const requiredTotal = gradeThresholds[targetGrade].percentage;
     const marksNeeded = requiredTotal - cieMarks;
@@ -58,14 +88,14 @@ const GradeCalculator = ({ semesterNumber, onBack }) => {
     if (impossible) {
       return {
         type: 'impossible',
-        message: `⚠️ Impossible! Requires ${gradeThresholds[targetGrade].percentage - cieMarks} marks in ESE (max 50)`
+        message: `Warning: Impossible! Requires ${gradeThresholds[targetGrade].percentage - cieMarks} marks in ESE (max 50)`
       };
     }
     
     if (eseNeeded === 0) {
       return {
         type: 'achieved',
-        message: `✅ Target already achieved with CIE marks alone!`
+        message: `Target already achieved with CIE marks alone!`
       };
     }
 
@@ -74,7 +104,7 @@ const GradeCalculator = ({ semesterNumber, onBack }) => {
     if (eseNeeded < 20 && total >= 50) {
       return {
         type: 'warning',
-        message: `⚠️ Note: Need ${eseNeeded} marks in ESE, but minimum 20 (40%) required to pass ESE`
+        message: `Warning: Note: Need ${eseNeeded} marks in ESE, but minimum 20 (40%) required to pass ESE`
       };
     }
     
@@ -84,25 +114,107 @@ const GradeCalculator = ({ semesterNumber, onBack }) => {
     };
   };
 
+  const handleImportInternalMarks = async () => {
+    try {
+      setImporting(true);
+      setImportMessage('Fetching internal marks...');
+
+      const response = await fetch('/attendance.csv');
+      if (!response.ok) {
+        throw new Error('Failed to load attendance.csv');
+      }
+      
+      const csvText = await response.text();
+      const parsedData = parseCSV(csvText);
+
+      if (parsedData && parsedData.length > 0) {
+        const newCalculatorData = [...calculatorData];
+        
+        parsedData.forEach(row => {
+          const courseName = row.Course || '';
+          const intMark = parseInt(row['Internal Marks']) || 0;  // Now works: quotes stripped
+
+          let extractedSubject = courseName.trim();
+          const dashParts = courseName.split(' - ');
+          if (dashParts.length >= 2) {
+            extractedSubject = dashParts[1].trim();
+          }
+
+          const index = newCalculatorData.findIndex(item => {
+            const itemNameLower = item.name.toLowerCase().trim();
+            const extractedLower = extractedSubject.toLowerCase().trim();
+            
+            if (itemNameLower === extractedLower) return true;
+            
+            const itemIsLab = itemNameLower.includes('lab');
+            const csvIsLab = extractedLower.includes('lab');
+            if (itemIsLab !== csvIsLab) return false;
+            
+            const commonWords = ['and', 'the', 'for', 'with', 'lab', 'programming'];
+            const getKeywords = (text) => {
+              return text.toLowerCase()
+                .split(/[\s-]+/)
+                .filter(word => word.length > 3 && !commonWords.includes(word));
+            };
+            
+            const itemKeywords = getKeywords(item.name);
+            const csvKeywords = getKeywords(extractedSubject);
+            
+            if (itemIsLab && csvIsLab) {
+              return itemKeywords.some(keyword =>
+                csvKeywords.some(csvKeyword =>
+                  keyword.includes(csvKeyword) || csvKeyword.includes(keyword)
+                )
+              );
+            }
+            
+            const matchCount = itemKeywords.filter(keyword =>
+              csvKeywords.some(csvKeyword =>
+                csvKeyword.includes(keyword) || keyword.includes(csvKeyword)
+              )
+            ).length;
+            
+            return matchCount >= Math.min(2, itemKeywords.length);
+          });
+
+          if (index !== -1 && intMark > 0) {
+            newCalculatorData[index].cieMarks = Math.min(intMark, 50);
+          }
+        });
+
+        setCalculatorData(newCalculatorData);
+        setImportMessage('Internal marks imported successfully!');
+        setTimeout(() => setImportMessage(''), 3000);
+      } else {
+        setImportMessage('Error: Could not parse attendance data');
+        setTimeout(() => setImportMessage(''), 3000);
+      }
+    } catch (error) {
+      console.error('Error importing internal marks:', error);
+      setImportMessage('Error: Could not load attendance.csv file');
+      setTimeout(() => setImportMessage(''), 5000);
+    } finally {
+      setImporting(false);
+    }
+  };
+
+
+
   return (
     <div className="grade-calculator-container">
       <h1 className="grade-calculator-header">Grade Calculator</h1>
-      <p className="grade-calculator-header">Semester {semesterNumber} - Calculate Required ESE Marks</p>
       
-      <div className="info-box">
-        <p><strong>How to use:</strong></p>
-        <ul>
-          <li>Enter your CIE (Internal) marks out of 50</li>
-          <li>Select your target grade</li>
-          <li>See how many marks you need in ESE (Exam) out of 50</li>
-          <li><strong>Note:</strong> Total = CIE + ESE (out of 100), ESE minimum: 20/50 (40%)</li>
-        </ul>
-      </div>
-
+      {importMessage && (
+        <div className="import-section">
+          <div className="import-message">{importMessage}</div>
+        </div>
+      )}
+      
       <div className="table-wrapper">
         <table className="grade-calculator-table">
           <thead>
             <tr>
+              <th>SNo</th>
               <th>Subject</th>
               <th>CIE Marks (out of 50)</th>
               <th>Target Grade</th>
@@ -118,6 +230,7 @@ const GradeCalculator = ({ semesterNumber, onBack }) => {
               
               return (
                 <tr key={index}>
+                  <td data-label="SNo">{index + 1}</td>
                   <td data-label="Subject" className="subject-cell">{data.name}</td>
                   <td data-label="CIE Marks">
                     <input
@@ -141,7 +254,7 @@ const GradeCalculator = ({ semesterNumber, onBack }) => {
                     </select>
                   </td>
                   <td data-label="Required %" className="result-cell">
-                    ≥{gradeInfo.percentage}%
+                    Greater than or equal to {gradeInfo.percentage}%
                   </td>
                   <td data-label="Grade Point" className="result-cell">
                     {gradeInfo.gradePoint}
@@ -158,39 +271,13 @@ const GradeCalculator = ({ semesterNumber, onBack }) => {
         </table>
       </div>
 
-      <div className="grading-info">
-        <h3>Grading System</h3>
-        <table className="grading-table">
-          <thead>
-            <tr>
-              <th>Grade</th>
-              <th>Grade Point</th>
-              <th>Percentage Range</th>
-            </tr>
-          </thead>
-          <tbody>
-            {grades.map(grade => (
-              <tr key={grade}>
-                <td>{grade}</td>
-                <td>{gradeThresholds[grade].gradePoint}</td>
-                <td>
-                  {grade === 'S' ? '≥ 90%' : 
-                   grade === 'P' ? '≥ 50% and < 55%' :
-                   `≥ ${gradeThresholds[grade].percentage}%${grades[grades.indexOf(grade) - 1] ? ' and < ' + gradeThresholds[grades[grades.indexOf(grade) - 1]].percentage + '%' : ''}`}
-                </td>
-              </tr>
-            ))}
-            <tr>
-              <td>F</td>
-              <td>0.0</td>
-              <td>&lt; 50% OR ESE &lt; 40% (i.e., &lt; 20 out of 50)</td>
-            </tr>
-          </tbody>
-        </table>
+      <div className="sgpa-display">
+        <h3>Expected SGPA</h3>
+        <p>{calculateSGPA()}</p>
       </div>
 
       <button className="back-to-cgpa" onClick={onBack}>
-        ← Back to CGPA Calculator
+        ← Back
       </button>
     </div>
   );

@@ -2,14 +2,31 @@ import React from 'react';
 import { grades, credits, gradePoints } from '../data/semesterData';
 import './SemesterTable.css';
 
-const SemesterTable = ({ semesterNumber, semesterName, subjects, onUpdate, onAttendance, onGradeCalculator }) => {
-  const [subjectData, setSubjectData] = React.useState(
-    subjects.map(subject => ({
+const SemesterTable = ({ semesterNumber, semesterName, subjects, onUpdate, onAttendance, onGradeCalculator, isLatestSemester }) => {
+  // Filter out subjects with 0 credits
+  const filteredSubjects = subjects.filter(subject => subject.credit > 0);
+  
+  // Initialize state from localStorage or use defaults
+  const [subjectData, setSubjectData] = React.useState(() => {
+    const savedData = localStorage.getItem(`semester_${semesterNumber}`);
+    if (savedData) {
+      try {
+        return JSON.parse(savedData);
+      } catch (e) {
+        console.error('Error parsing saved data:', e);
+      }
+    }
+    return filteredSubjects.map(subject => ({
       name: subject.name,
       credit: subject.credit,
       grade: subject.defaultGrade
-    }))
-  );
+    }));
+  });
+
+  // Save to localStorage whenever data changes
+  React.useEffect(() => {
+    localStorage.setItem(`semester_${semesterNumber}`, JSON.stringify(subjectData));
+  }, [subjectData, semesterNumber]);
 
   // Notify parent component of initial data on mount
   React.useEffect(() => {
@@ -32,9 +49,11 @@ const SemesterTable = ({ semesterNumber, semesterName, subjects, onUpdate, onAtt
   };
 
   const handleClear = () => {
-    const clearedData = subjectData.map(subject => ({
-      ...subject,
-      grade: 'F'
+    // Reset to default grades from semesterData
+    const clearedData = filteredSubjects.map(subject => ({
+      name: subject.name,
+      credit: subject.credit,
+      grade: subject.defaultGrade
     }));
     setSubjectData(clearedData);
     onUpdate(semesterNumber, clearedData);
@@ -98,12 +117,16 @@ const SemesterTable = ({ semesterNumber, semesterName, subjects, onUpdate, onAtt
       <div className="action-buttons">
         <button className="clear-button" onClick={handleClear}>Clear</button>
         <button className="sgpa-button">SGPA: {calculateSGPA()}</button>
-        <button className="attendance-button" onClick={() => onAttendance(semesterNumber)}>
-          Attendance 🧮
-        </button>
-        <button className="grade-calc-button" onClick={() => onGradeCalculator(semesterNumber)}>
-          Grade Calculator 📊
-        </button>
+        {isLatestSemester && (
+          <>
+            <button className="attendance-button" onClick={() => onAttendance(semesterNumber)}>
+              Attendance 🧮
+            </button>
+            <button className="grade-calc-button" onClick={() => onGradeCalculator(semesterNumber)}>
+              Grade Calculator 📊
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

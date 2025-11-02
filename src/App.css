@@ -42,18 +42,28 @@ body {
 }
 
 .btn {
-  background-color: #007bff;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
   border: none;
-  padding: 10px 20px;
+  padding: 12px 32px;
   color: white;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   margin: 5px;
   font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
 }
 
 .btn:hover {
-  background-color: #0056b3;
+  background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
+}
+
+.btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
 }
 
 .button-section {

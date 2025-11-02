@@ -23,3 +23,11 @@ dist-ssr
 *.sln
 *.sw?
 old-files/
+
+# Java/Maven
+scraper/target/
+*.class
+
+# Backend uploads
+uploads/
+/scraper/target/
