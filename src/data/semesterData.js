@@ -30,23 +30,23 @@ export const semesterData = {
   1: {
     name: "Semester 1",
     subjects: [
-      { name: "Discrete Mathematics", credit: 4, defaultGrade: 'B' },
-      { name: "Engineering Chemistry and Advanced Materials", credit: 4, defaultGrade: 'B' },
-      { name: "Python for Engineers", credit: 3, defaultGrade: 'S' },
-      { name: "Introduction to Computing Essentials", credit: 4, defaultGrade: 'B+' },
-      { name: "Basics of Electrical and Electronics Engineering", credit: 4, defaultGrade: 'B+' },
-      { name: "Technical English and Soft Skills", credit: 3, defaultGrade: 'B' }
+      { name: "Discrete Mathematics", credit: 4, defaultGrade: 'F' },
+      { name: "Engineering Chemistry and Advanced Materials", credit: 4, defaultGrade: 'F' },
+      { name: "Python for Engineers", credit: 3, defaultGrade: 'F' },
+      { name: "Introduction to Computing Essentials", credit: 4, defaultGrade: 'F' },
+      { name: "Basics of Electrical and Electronics Engineering", credit: 4, defaultGrade: 'F' },
+      { name: "Technical English and Soft Skills", credit: 3, defaultGrade: 'F' }
     ]
   },
   2: {
     name: "Semester 2",
     subjects: [
-      { name: "Linear Algebra and Probability", credit: 4, defaultGrade: 'S' },
-      { name: "Fundamentals of Engineering Physics", credit: 4, defaultGrade: 'B' },
-      { name: "Essential foundations of Digital Logic", credit: 4, defaultGrade: 'C+' },
-      { name: "Computer Programming in C & Shell Scripting", credit: 4, defaultGrade: 'A' },
-      { name: "Computer Hardware Essentials", credit: 3, defaultGrade: 'C' },
-      { name: "Engineering Economics", credit: 3, defaultGrade: 'P' }
+      { name: "Linear Algebra and Probability", credit: 4, defaultGrade: 'F' },
+      { name: "Fundamentals of Engineering Physics", credit: 4, defaultGrade: 'F' },
+      { name: "Essential foundations of Digital Logic", credit: 4, defaultGrade: 'F' },
+      { name: "Computer Programming in C & Shell Scripting", credit: 4, defaultGrade: 'F' },
+      { name: "Computer Hardware Essentials", credit: 3, defaultGrade: 'F' },
+      { name: "Engineering Economics", credit: 3, defaultGrade: 'F' }
     ]
   },
   3: {
