@@ -6,27 +6,14 @@ const SemesterTable = ({ semesterNumber, semesterName, subjects, onUpdate, onAtt
   // Filter out subjects with 0 credits
   const filteredSubjects = subjects.filter(subject => subject.credit > 0);
   
-  // Initialize state from localStorage or use defaults
-  const [subjectData, setSubjectData] = React.useState(() => {
-    const savedData = localStorage.getItem(`semester_${semesterNumber}`);
-    if (savedData) {
-      try {
-        return JSON.parse(savedData);
-      } catch (e) {
-        console.error('Error parsing saved data:', e);
-      }
-    }
-    return filteredSubjects.map(subject => ({
+  // Initialize state directly from subjects (no localStorage)
+  const [subjectData, setSubjectData] = React.useState(
+    filteredSubjects.map(subject => ({
       name: subject.name,
       credit: subject.credit,
       grade: subject.defaultGrade
-    }));
-  });
-
-  // Save to localStorage whenever data changes
-  React.useEffect(() => {
-    localStorage.setItem(`semester_${semesterNumber}`, JSON.stringify(subjectData));
-  }, [subjectData, semesterNumber]);
+    }))
+  );
 
   // Notify parent component of initial data on mount
   React.useEffect(() => {
