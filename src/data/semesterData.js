@@ -61,6 +61,19 @@ export const semesterData = {
       { name: "Data Structures Lab", credit: 2, defaultGrade: 'F' },
       { name: "Object Oriented Programming Lab", credit: 2, defaultGrade: 'F' }
     ]
+  },
+  4: {
+    name: "Semester 4",
+    subjects: [
+      { name: "Graph Theory", credit: 4, defaultGrade: 'F' },
+      { name: "Operating Systems", credit: 4, defaultGrade: 'F' },
+      { name: "Theory of Computation", credit: 4, defaultGrade: 'F' },
+      { name: "Database Management Systems", credit: 4, defaultGrade: 'F' },
+      { name: "Life Skills and Professional Ethics", credit: 2, defaultGrade: 'F' },
+      { name: "Environmental Science", credit: 0, defaultGrade: 'F' },
+      { name: "Operating Systems Lab", credit: 2, defaultGrade: 'F' },
+      { name: "Database Management Systems Lab", credit: 2, defaultGrade: 'F' },
+    ]
   }
 };
 

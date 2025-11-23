@@ -1,5 +1,9 @@
 .semester-section {
   margin: 30px 0;
+  width: 100%;
+  max-width: 100%;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 .semester-section h2 {
@@ -12,14 +16,15 @@
   border-collapse: collapse;
   margin-bottom: 15px;
   background-color: #1e1e1e;
+  table-layout: auto;
 }
 
 .semester-table th,
 .semester-table td {
   border: 1px solid #444;
   padding: 10px;
-  text-align: center;
   color: #e0e0e0;
+  text-align: center;
 }
 
 .semester-table th {
@@ -133,11 +138,22 @@
   box-shadow: 0 2px 6px rgba(23, 162, 184, 0.3);
 }
 
+/* === ONLY CHANGE YOU REQUESTED === */
+@media screen and (max-width: 768px) {
+  .main-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 10px !important;
+    border-radius: 0 !important;
+  }
+}
+
+/* Action button responsiveness */
 @media screen and (max-width: 600px) {
   .action-buttons {
     flex-direction: column;
   }
-
   .action-buttons button {
     width: 100%;
   }
